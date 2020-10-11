@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yard_management/common/httpRequest.dart';
-import 'package:yard_management/data/CommonResponse.dart';
-import 'package:yard_management/data/Zone.dart';
+import 'package:yard_management/data/common_response.dart';
+import 'package:yard_management/data/zone.dart';
 
 class ScannerScreen extends StatefulWidget{
 
@@ -61,11 +61,11 @@ class ScannerState extends State<ScannerScreen>{
     var response = await httpRequest.getZones(map);
     print(response.toString());
 
-    CommonResponse<Zone> common = CommonResponse.fromJson(response);
-    print(common.data);
+    var common = CommonResponse<Zone>.fromJson(response, (data) => Zone.fromJson(data));
 
-    List<Zone> list = common.data;
-
+    for (var zone in common.data) {
+      print(zone.id);
+    }
   }
 
   void getYardId(){

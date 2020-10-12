@@ -35,6 +35,15 @@ class HttpRequest
     return throw (response.statusCode.toString());
   }
 
+  Future<Map> getYard(Map params) async{
+    var response = await http.get(createUri('/api/v1/yard/yard',
+        params: params),headers: await getHeaders());
+    if(response.statusCode == 200){
+      return json.decode(response.body);
+    }
+    return throw (response.statusCode.toString());
+  }
+
   String createUri(String path, {String id, Map params}) {
     if (id != null) {
       path += id;

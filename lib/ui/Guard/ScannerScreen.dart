@@ -1,9 +1,12 @@
 
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yard_management/common/httpRequest.dart';
 import 'package:yard_management/data/common_response.dart';
+import 'package:yard_management/data/yard.dart';
 import 'package:yard_management/data/zone.dart';
 
 class ScannerScreen extends StatefulWidget{
@@ -61,14 +64,34 @@ class ScannerState extends State<ScannerScreen>{
     var response = await httpRequest.getZones(map);
     print(response.toString());
 
-    var common = CommonResponse<Zone>.fromJson(response, (data) => Zone.fromJson(data));
+    CommonResponse common = CommonResponse<Zone>.fromJson(response, (data) => Zone.fromJson(data));
 
-    for (var zone in common.data) {
-      print(zone.id);
+    List<Zone> zones = common.data;
+    if(zones != null && zones.length > 0){
+      Zone zone = zones[0];
+      getYardId(zone.id);
     }
   }
 
-  void getYardId(){
+  void getYardId(String zoneId) async{
+    print("Get Yard Id method");
+    print(zoneId);
+
+    Map<String,dynamic> map = new Map();
+    map.putIfAbsent('__zone_id__equal', () => zoneId);
+    map.putIfAbsent('__only', () => 'id');
+
+    var response = await httpRequest.getYard(map);
+    print(response.toString());
+
+    CommonResponse common = CommonResponse<Yard>.fromJson(response, (data) => Yard.fromJson(data));
+
+    List<Yard> yards = common.data;
+    if(yards != null && yards.length > 0){
+      Yard yard = yards[0];
+      print(yard.id);
+    }
+
 
   }
 }

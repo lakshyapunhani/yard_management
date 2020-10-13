@@ -41,7 +41,17 @@ class HttpRequest
     if(response.statusCode == 200){
       return json.decode(response.body);
     }
-    return throw (response.statusCode.toString());
+    return throw (response.statusCode.toString() + response.body.toString());
+  }
+
+  Future<Map> patchDeviceDetails(Map params,String userId) async{
+    String url = createUri('/api/v1/auth/user/' + userId);
+    var response = await http.patch(url,
+        body:json.encode(params),headers: await getHeaders());
+    if(response.statusCode == 200){
+      return json.decode(response.body);
+    }
+    return throw (response.statusCode.toString() + response.body.toString());
   }
 
   String createUri(String path, {String id, Map params}) {

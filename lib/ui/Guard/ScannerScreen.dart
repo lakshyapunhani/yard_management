@@ -1,9 +1,6 @@
 
-import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yard_management/common/httpRequest.dart';
 import 'package:yard_management/data/common_response.dart';
 import 'package:yard_management/data/yard.dart';
@@ -30,9 +27,9 @@ class ScannerState extends State<ScannerScreen>{
             ,child: Row(children: <Widget>[
               Padding(padding: EdgeInsets.only(left: 10)),
               Expanded(flex: 1,child: Text("SCAN VEHICLE",style: TextStyle(fontSize:20,color: Colors.white))),
-              SvgPicture.asset('assets/images/ic_switch_profile.svg',height: 30,width: 30,color: Colors.white,),
-              Padding(padding: EdgeInsets.only(left: 20),),
-              SvgPicture.asset('assets/images/ic_log_out.svg',height: 30,width: 30,color: Colors.white,)
+              Image.asset('assets/images/icSwitchProfile.png',width: 30,height: 30),
+              Padding(padding: EdgeInsets.only(left: 20)),
+              Image.asset('assets/images/icLogOut.png',width: 30,height: 30),
             ],)),
         Expanded(child:
         Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [

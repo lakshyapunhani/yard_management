@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yard_management/common/httpRequest.dart';
 import 'package:yard_management/data/CommonResponse.dart';
 import 'package:yard_management/data/Zone.dart';
+import 'package:yard_management/ui/Guard/InOutScreen.dart';
 
 class ScannerScreen extends StatefulWidget{
 
@@ -17,6 +18,10 @@ class ScannerState extends State<ScannerScreen>{
 
   var httpRequest = HttpRequest();
 
+  void method(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => InOutScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body:
@@ -25,22 +30,21 @@ class ScannerState extends State<ScannerScreen>{
         Container(height: 50
             ,color: Color(0xFF00b26c)
             ,child: Row(children: <Widget>[
-              Padding(padding: EdgeInsets.only(left: 10)),
               Expanded(flex: 1,child: Text("SCAN VEHICLE",style: TextStyle(fontSize:20,color: Colors.white))),
-              SvgPicture.asset('assets/images/ic_switch_profile.svg',height: 30,width: 30,color: Colors.white,),
-              Padding(padding: EdgeInsets.only(left: 20),),
-              SvgPicture.asset('assets/images/ic_log_out.svg',height: 30,width: 30,color: Colors.white,)
+              Container(child: Image.asset('assets/images/icSwitchProfile.png'),height: 70,width: 70,padding: EdgeInsets.all(10)),
+              Container(child: Image.asset('assets/images/icLogOut.png'),height: 70,width: 70,padding: EdgeInsets.all(10)),
             ],)),
         Expanded(child:
         Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Image.asset('assets/images/ic_scanner.png',width: 150,height: 150),
-          Container(margin:EdgeInsets.fromLTRB(30,20,30,10),width: double.infinity,
-              child: RaisedButton(shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-                color: Color(0xFF00b26c),
-                child: Text("Open Scanner",style: TextStyle(color: Colors.white)),
-                onPressed: (){
-                },))
+          InkWell(onTap: () => method(),
+            child: Container(margin:EdgeInsets.fromLTRB(30,20,30,10),width: double.infinity,
+                child: RaisedButton(shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                  color: Color(0xFF00b26c),
+                  child: Text("OPEN SCANNER",style: TextStyle(color: Colors.white)),
+                  onPressed: () => method(),)),
+          )
         ],),))
       ],)));
   }

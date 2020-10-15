@@ -8,8 +8,11 @@ import 'package:flutter/services.dart';
 import 'package:yard_management/common/SessionManager.dart';
 import 'package:yard_management/common/httpRequest.dart';
 import 'package:yard_management/data/common_response.dart';
+import 'package:yard_management/data/vehicle_details.dart';
 import 'package:yard_management/data/yard.dart';
 import 'package:yard_management/data/zone.dart';
+import 'package:yard_management/ui/Guard/InOutScreen.dart';
+import 'package:yard_management/ui/Guard/VehicleNotFoundScreen.dart';
 
 class ScannerScreen extends StatefulWidget{
 
@@ -45,9 +48,36 @@ class ScannerState extends State<ScannerScreen>{
                 color: Color(0xFF00b26c),
                 child: Text("Open Scanner",style: TextStyle(color: Colors.white)),
                 onPressed: (){
+                getVehicleDetails("HR38W3403");
                 },))
         ],),))
       ],)));
+  }
+
+  void getVehicleDetails(String vehicleNumber) async{
+
+    Map<String,dynamic> map = Map();
+    map.putIfAbsent("__registration_number__equal", () => vehicleNumber);
+
+    try{
+      var response = await httpRequest.getVehicleDetails(map);
+
+      CommonResponse common = CommonResponse<VehicleDetails>.fromJson(response,
+              (data) => VehicleDetails.fromJson(data));
+
+      List<VehicleDetails> vehicles = common.data;
+      if(vehicles != null && vehicles.length > 0){
+        VehicleDetails vehicleDetails = vehicles[0];
+        print(vehicleDetails.model);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => InOutScreen()));
+      }
+    }
+    catch(e){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => VehicleNotFoundScreen()));
+    }
+
+
+    
   }
 
   @override
@@ -112,12 +142,6 @@ class ScannerState extends State<ScannerScreen>{
     }
 
     if (!mounted) return;
-
-    // print(deviceData['device']);
-    // print(deviceData['brand']);
-    // setState(() {
-    //   _deviceData = deviceData;
-    // });
 
     Map<String,dynamic> map = new Map();
     map.putIfAbsent('manufacturer', () => deviceData['manufacturer']);

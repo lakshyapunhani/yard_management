@@ -54,6 +54,15 @@ class HttpRequest
     return throw (response.statusCode.toString() + response.body.toString());
   }
 
+  Future<Map> getVehicleDetails(Map params) async{
+    var response = await http.get(createUri('/api/v1/auth/vehicle',
+        params: params),headers: await getHeaders());
+    if(response.statusCode == 200){
+      return json.decode(response.body);
+    }
+    return throw (response.statusCode.toString() + response.body.toString());
+  }
+
   String createUri(String path, {String id, Map params}) {
     if (id != null) {
       path += id;
